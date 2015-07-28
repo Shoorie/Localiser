@@ -93,4 +93,16 @@
         android:onClick="forgotPass"
         android:textColorHighlight="#FFFFFF99" />
 
+    <ImageButton
+        android:onClick="exitApplication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/editText"
+        android:layout_alignEnd="@+id/editText"
+        android:src="@drawable/close"
+        android:contentDescription="close"
+        />
+
 </RelativeLayout>

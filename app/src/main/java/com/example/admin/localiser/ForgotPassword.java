@@ -97,7 +97,6 @@ public class ForgotPassword extends Activity {
                             }
                             Intent intent = new Intent(getBaseContext(), LogInActivity.class);
                             startActivity(intent);
-
                             //jesli pojdzie to pomyslec nad tym, zeby zrobic nowe Activity ze zmiana hasla na nowe
                         }
                     });

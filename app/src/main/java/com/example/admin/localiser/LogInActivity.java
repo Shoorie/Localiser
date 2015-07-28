@@ -152,4 +152,21 @@ public class LogInActivity extends Activity {
         }
         return new String(text);
     }
+
+    public void exitApplication(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you really want to exit? ")
+                .setCancelable(false)
+                .setTitle("Exit")
+                .setIcon(R.drawable.close)
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                         finish();
+                         System.exit(0);
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 }
