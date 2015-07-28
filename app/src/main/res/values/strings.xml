@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Localiser</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_google_map">Google Map</string>
+    <string name="title_activity_profiles">Profiles</string>
+    <string name="title_activity_add_profile">AddProfileActivity</string>
+    <string name="title_activity_edit_profile">EditProfileActivity</string>
+    <string name="title_activity_display_profile">DisplayProfileActivity</string>
+    <string name="title_activity_delete_profile">DeleteProfileActivity</string>
+    <string name="title_activity_searcher">Searcher</string>
+    <string name="title_activity_searchable">SearchableActivity</string>
+    <string name="title_activity_log_in">LogInActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_forgot_password">ForgotPassword</string>
+</resources>
