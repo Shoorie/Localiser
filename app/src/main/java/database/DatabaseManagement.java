@@ -1,15 +1,26 @@
 package database;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.example.admin.localiser.LogInActivity;
+import com.example.admin.localiser.MainActivity;
+
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+
+import database.UserDatabase.User;
 import model.ClientData;
 
 import static com.example.admin.localiser.LogInActivity.SHA1;

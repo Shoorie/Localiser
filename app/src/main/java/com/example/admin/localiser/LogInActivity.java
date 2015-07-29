@@ -4,18 +4,24 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
+
 import database.DatabaseManagement;
-import static com.example.admin.localiser.ValuesInApp.Values.*;
 
 
 public class LogInActivity extends Activity {
@@ -38,13 +44,19 @@ public class LogInActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_log_in, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -58,15 +70,15 @@ public class LogInActivity extends Activity {
         String pass = password.getText().toString();
 
         if (user.matches("") && pass.matches("")){
-            dialogBadCredentials(FILL_THE_DATA);
+            dialogBadCredentials("Fill the username and password to get access to app!");
         }
         else {
             DatabaseManagement dm = new DatabaseManagement(this);
             if(dm.getLogin(user).matches(SHA1(pass))){
-                dialogAcceptedLoginAndPass(ACCEPTED_DATA);
+                dialogAcceptedLoginAndPass("Accepted! Enjoy the app!");
             }
             else {
-                dialogBadCredentials(BAD_CREDENTIALS);
+                dialogBadCredentials("Bad credentials! Try again!");
             }
         }
     }
@@ -80,9 +92,9 @@ public class LogInActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(msg)
                 .setCancelable(false)
-                .setTitle(TITLE_SUCCESS)
+                .setTitle("Success")
                 .setIcon(R.drawable.success1)
-                .setPositiveButton(BUTTON_OK, new DialogInterface.OnClickListener() {
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent intent = new Intent(getBaseContext(), MainActivity.class);
                         startActivity(intent);
@@ -96,9 +108,9 @@ public class LogInActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(msg)
                 .setCancelable(false)
-                .setTitle(TITLE_FAILURE)
+                .setTitle("Failure")
                 .setIcon(R.drawable.x)
-                .setPositiveButton(BUTTON_OK, new DialogInterface.OnClickListener() {
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
@@ -125,8 +137,8 @@ public class LogInActivity extends Activity {
     }
 
     public static String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        MessageDigest md = MessageDigest.getInstance(DIGEST);
-        md.update(text.getBytes(CODING));
+        MessageDigest md = MessageDigest.getInstance("SHA-1");
+        md.update(text.getBytes("UTF-8"));
         byte[] sha1hash = md.digest();
         return convertToHex(sha1hash);
     }
@@ -143,19 +155,15 @@ public class LogInActivity extends Activity {
 
     public void exitApplication(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(ASK)
+        builder.setMessage("Do you really want to exit? ")
                 .setCancelable(false)
-                .setTitle(TITLE_EXIT)
+                .setTitle("Exit")
                 .setIcon(R.drawable.close)
-                .setNegativeButton(BUTTON_CANCEL, null)
-                .setPositiveButton(BUTTON_OK, new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                         Intent intent = new Intent(Intent.ACTION_MAIN);
-                         intent.addCategory(Intent.CATEGORY_HOME);
-                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                         startActivity(intent);
                          finish();
-                        //sprawdzic, czy to dziala, jak nie zadziala to wyprobowac dzialanie tego co mam napisane w notatniku!
+                         System.exit(0);
                     }
                 });
         AlertDialog alert = builder.create();
