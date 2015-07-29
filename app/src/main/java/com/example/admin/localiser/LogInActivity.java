@@ -4,24 +4,18 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
-
 import database.DatabaseManagement;
+import static com.example.admin.localiser.ValuesInApp.Values.*;
 
 
 public class LogInActivity extends Activity {
@@ -70,15 +64,15 @@ public class LogInActivity extends Activity {
         String pass = password.getText().toString();
 
         if (user.matches("") && pass.matches("")){
-            dialogBadCredentials("Fill the username and password to get access to app!");
+            dialogBadCredentials(FILL_THE_DATA);
         }
         else {
             DatabaseManagement dm = new DatabaseManagement(this);
             if(dm.getLogin(user).matches(SHA1(pass))){
-                dialogAcceptedLoginAndPass("Accepted! Enjoy the app!");
+                dialogAcceptedLoginAndPass(ACCEPTED_DATA);
             }
             else {
-                dialogBadCredentials("Bad credentials! Try again!");
+                dialogBadCredentials(BAD_CREDENTIALS);
             }
         }
     }
@@ -92,9 +86,9 @@ public class LogInActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(msg)
                 .setCancelable(false)
-                .setTitle("Success")
+                .setTitle(TITLE_SUCCESS)
                 .setIcon(R.drawable.success1)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(BUTTON_OK, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent intent = new Intent(getBaseContext(), MainActivity.class);
                         startActivity(intent);
@@ -108,9 +102,9 @@ public class LogInActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(msg)
                 .setCancelable(false)
-                .setTitle("Failure")
+                .setTitle(TITLE_FAILURE)
                 .setIcon(R.drawable.x)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(BUTTON_OK, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
@@ -137,8 +131,8 @@ public class LogInActivity extends Activity {
     }
 
     public static String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        MessageDigest md = MessageDigest.getInstance("SHA-1");
-        md.update(text.getBytes("UTF-8"));
+        MessageDigest md = MessageDigest.getInstance(DIGEST);
+        md.update(text.getBytes(CODING));
         byte[] sha1hash = md.digest();
         return convertToHex(sha1hash);
     }
@@ -155,12 +149,12 @@ public class LogInActivity extends Activity {
 
     public void exitApplication(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Do you really want to exit? ")
+        builder.setMessage(ASK)
                 .setCancelable(false)
-                .setTitle("Exit")
+                .setTitle(TITLE_EXIT)
                 .setIcon(R.drawable.close)
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setNegativeButton(BUTTON_CANCEL, null)
+                .setPositiveButton(BUTTON_OK, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                          finish();
                          System.exit(0);
