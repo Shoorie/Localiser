@@ -10,16 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-
 import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-
 import database.DatabaseManagement;
 import model.ClientData;
-
 import static com.example.admin.localiser.LogInActivity.*;
+import static com.example.admin.localiser.ValuesInApp.Values.*;
 
 
 public class RegisterActivity extends Activity {
@@ -47,19 +44,13 @@ public class RegisterActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_register, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -83,11 +74,11 @@ public class RegisterActivity extends Activity {
             Log.d("Insert: ", "Inserting ..");
             dm.addClientDataToDatabase(new ClientData(log, SHA1(pass), em, tn));
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Account created")
+            builder.setMessage(ACCOUNT_CREATED)
                     .setCancelable(false)
-                    .setTitle("Success")
+                    .setTitle(TITLE_SUCCESS)
                     .setIcon(R.drawable.success1)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(BUTTON_OK, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent intent = new Intent(getBaseContext(), LogInActivity.class);
                             startActivity(intent);
@@ -99,7 +90,7 @@ public class RegisterActivity extends Activity {
 
         }
         else {
-            dialogAlert("You must fill all form to register!");
+            dialogAlert(FILL_WHOLE_REGISTER);
         }
     }
 
@@ -116,9 +107,9 @@ public class RegisterActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(msg)
                 .setCancelable(false)
-                .setTitle("Failure")
+                .setTitle(TITLE_FAILURE)
                 .setIcon(R.drawable.x)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(BUTTON_OK, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });

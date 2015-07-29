@@ -2,9 +2,6 @@ package database;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by admin on 2015-07-19.
- */
 public final class UserDatabase {
     private UserDatabase(){}
 

@@ -14,16 +14,13 @@ import android.location.LocationManager;
 import android.net.wifi.WifiManager;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,14 +30,12 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import static android.os.SystemClock.sleep;
+import static com.example.admin.localiser.ValuesInApp.Values.*;
 
 
 public class GoogleMapActivity extends FragmentActivity implements GoogleMap.OnMapClickListener,
@@ -86,7 +81,7 @@ public class GoogleMapActivity extends FragmentActivity implements GoogleMap.OnM
         if(wifi.isWifiEnabled()){
             ifNetworkEnable();
         }
-        else if(!wifi.isWifiEnabled()) {
+        else {
             ifNetworkDisable();
         }
     }
@@ -94,8 +89,8 @@ public class GoogleMapActivity extends FragmentActivity implements GoogleMap.OnM
     public void ifNetworkEnable(){
         refresh();
         lm.requestLocationUpdates(najlepszyDostawca, 1000, 1, this);
-        szer.setText("Current latitude: " + loc.getLatitude());
-        dl.setText("Current longitude: " + loc.getLongitude());
+        szer.setText(CURRENT_LATITUDE + loc.getLatitude());
+        dl.setText(CURRENT_LONGITUDE + loc.getLongitude());
 
         SupportMapFragment fm = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         googleMap = fm.getMap();
@@ -116,18 +111,16 @@ public class GoogleMapActivity extends FragmentActivity implements GoogleMap.OnM
                         if(wifi.isWifiEnabled()){
                             ifNetworkEnable();
                         }
-                        else if(!wifi.isWifiEnabled()){
+                        else {
                             ifNetworkDisable();
                         }
-                        else
-                            break;
                 }
             }
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure to enable wifi?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).setTitle("Disabled WiFi").show();
+        builder.setMessage(ASK_ENABLE_WIFI).setPositiveButton(BUTTON_YES, dialogClickListener)
+                .setNegativeButton(BUTTON_NO, dialogClickListener).setTitle(DISABLED_WIFI).show();
     }
 
     public void setup(){
@@ -142,19 +135,13 @@ public class GoogleMapActivity extends FragmentActivity implements GoogleMap.OnM
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_google_map, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -166,11 +153,9 @@ public class GoogleMapActivity extends FragmentActivity implements GoogleMap.OnM
         refresh();
         Toast.makeText(this, "Location changed: Lat: " + loc.getLatitude() + " Lng: "
                         + loc.getLongitude(), Toast.LENGTH_LONG).show();
-        dl.setText("Current longitude: " + loc.getLongitude());
-        szer.setText("Current latitude: " + loc.getLatitude());
-       // CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 10);
-       // googleMap.animateCamera(cameraUpdate);
-       // lm.removeUpdates(this);
+        dl.setText(CURRENT_LONGITUDE + loc.getLongitude());
+        szer.setText(CURRENT_LATITUDE + loc.getLatitude());
+
     }
 
     @Override
@@ -194,9 +179,7 @@ public class GoogleMapActivity extends FragmentActivity implements GoogleMap.OnM
         String add = "";
         try {
             List<Address> addresses = geoCoder.getFromLocation(point.latitude, point.longitude,1);
-
-            if (addresses.size() > 0)
-            {
+            if (addresses.size() > 0) {
                 for (int i=0; i<addresses.get(0).getMaxAddressLineIndex(); i++)
                     add += addresses.get(0).getAddressLine(i) + "\n";
             }
@@ -207,7 +190,7 @@ public class GoogleMapActivity extends FragmentActivity implements GoogleMap.OnM
         marker2 = googleMap.addMarker(new MarkerOptions()
                         .position(point)
                         .title(add)
-                        .snippet("Address")
+                        .snippet(ADDRESS)
         );
 
         marker2.showInfoWindow();

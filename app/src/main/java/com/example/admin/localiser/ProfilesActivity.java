@@ -1,15 +1,9 @@
 package com.example.admin.localiser;
 
-import android.app.Activity;
-import android.app.ListActivity;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -21,7 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import static com.example.admin.localiser.ValuesInApp.Values.*;
 
 
 public class ProfilesActivity extends ActionBarActivity{
@@ -36,8 +31,8 @@ public class ProfilesActivity extends ActionBarActivity{
         filterText = (EditText) findViewById(R.id.search_box);
         filterText.addTextChangedListener(filterTextWatcher);
         listView = (ListView) findViewById(R.id.list);
-        String[] values = new String[] { "Add Profile", "Delete Profile", "Display Profile",
-                "Edit Profile" };
+        String[] values = new String[] {ADD_PROFILE, DELETE_PROFILE, DISPLAY_PROFILE,
+                EDIT_PROFILE };
         adapter=new ArrayAdapter<String>(
                 this,android.R.layout.simple_list_item_checked, values){
 
@@ -58,14 +53,14 @@ public class ProfilesActivity extends ActionBarActivity{
                // int itemPosition = position;
                 // ListView Clicked item value
                 String itemValue = (String) listView.getItemAtPosition(position);
-                if (itemValue == "Add Profile") {
+                if (itemValue.matches(ADD_PROFILE)) {
                     addProf(view);
-                } else if (itemValue == "Delete Profile") {
+                } else if (itemValue.matches(DELETE_PROFILE)) {
                     delProf(view);
-                } else if (itemValue == "Display Profile") {
+                } else if (itemValue.matches(DISPLAY_PROFILE)) {
                     dispProf(view);
                 }
-                else if(itemValue == "Edit Profile"){
+                else if(itemValue.matches(EDIT_PROFILE)){
                     editProf(view);
                 }
             }
@@ -114,7 +109,6 @@ public class ProfilesActivity extends ActionBarActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_profiles, menu);
         /*MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -128,12 +122,7 @@ public class ProfilesActivity extends ActionBarActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
